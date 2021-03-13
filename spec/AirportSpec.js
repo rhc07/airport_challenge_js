@@ -4,10 +4,12 @@ describe("Airport", function() {
 
   let airport
   let plane
+  let weather
 
   beforeEach(function() {
-    airport = new Airport();
+    airport = new Airport(weather);
     plane = new Plane();
+    weather = new Weather();
   });
 
   it('lands a plane', function() {
@@ -28,5 +30,14 @@ describe("Airport", function() {
     expect(airport.land(plane)).toEqual('Cannot land, airport is currently full.');
   });
 
+  it('the capacity of the airport can be changed by the user', function() {
+    airport = new Airport(20)
+    expect(airport.capacity).toEqual(20);
+  });
+
+  fit('prevents take off when weather is stormy', function() {
+    spyOn(weather, "isStormy").and.returnValue(true);
+    expect(airport.take_off(plane)).toEqual('It is too stormy to take off.');
+  });
 
 });

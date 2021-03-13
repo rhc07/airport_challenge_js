@@ -1,18 +1,21 @@
-"use strict"
+"use strict";
 
 class Airport{
 
-  constructor(){
+  constructor(default_capacity = 10, weather = new Weather) {
     this.hangar_report = [];
-  };
+    this.capacity = default_capacity;
+    this.weather = weather;
+
+  }
 
   land = function(plane) {
 
-    if(this.hangar_report.length > 10) {
+    if(this.hangar_report.length > this.capacity) {
       return 'Cannot land, airport is currently full.';
     }
 
-    else if(this.hangar_report.length <= 10); {
+    else if(this.hangar_report.length <= this.capacity) {
       this.hangar_report.push(plane);
       return this.hangar_report;
     }
@@ -20,7 +23,14 @@ class Airport{
   };
 
   take_off = function(plane){
-    this.hangar_report.pop(plane);
+
+    if(this.weather.isStormy === true){
+      return 'It is too stormy to take off.';
+    }
+    else {
+      this.hangar_report.pop(plane);
+    }
   };
+
 
 };
